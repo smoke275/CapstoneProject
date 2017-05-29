@@ -1,0 +1,34 @@
+<resources>
+    <string name="google_places_API">AIzaSyCDjxRJjtacS98bkeborirCEcM4LHamP8k</string>
+
+    <string name="app_name" translatable="false">FoodScout</string>
+    <string name="required">Location is required</string>
+    <string name="places">Places</string>
+    <string name="restaurant">Restaurant</string>
+    <string name="hotels">Hotels</string>
+    <string name="memories">Memories</string>
+    <string name="error">Maybe this wasn\'t a good idea! :(</string>
+    <integer name="list_column_count">1</integer>
+    <integer name="option_column_count">2</integer>
+    <string name="title_activity_details">DetailsActivity</string>
+    <string name="details_head">Going Places</string>
+    <string name="open">Open</string>
+    <string name="closed">Closed</string>
+    <string name="shareSubject">Hey! Check this place out!</string>
+    <string name="rating_label">Ratings</string>
+    <string name="status_label">Status</string>
+    <string name="reviews">Reviews</string>
+    <string name="status">Status</string>
+    <string name="memory_title">Personal Diary</string>
+    <string name="title_activity_memory_details">Diary Editor</string>
+    <string name="create_a_memory">Create a memory</string>
+    <string name="enter_a_title">Enter a Title</string>
+    <string name="navigate_button_text">Navigate</string>
+
+    <!-- -
+        This is an ad unit ID for a banner test ad. Replace with your own banner ad unit id.
+        For more information, see https://support.google.com/admob/answer/3052638
+    <!- -->
+    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="share_with_friends">share with friends</string>
+</resources>

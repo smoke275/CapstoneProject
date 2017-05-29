@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:fitsSystemWindows="true"
+    android:layout_height="wrap_content">
+
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/detail_map_height"
+        app:layout_collapseMode="parallax" />
+
+    <br.com.bloder.magic.view.MagicButton
+        android:id="@+id/navigate"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start|bottom"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        app:magic_button_size="50dp"
+        app:button_icon="@drawable/ic_navigation_black_24dp"
+        app:button_icon_width="25dp"
+        app:button_icon_height="25dp"
+        app:hide_text="@string/navigate_button_text"
+        app:hide_text_size="7dp"
+        app:hide_text_color="@android:color/black"
+        app:icon_button_color="@color/accent"
+        app:expandable_area_color="@color/accent"
+        android:background="@android:color/transparent"
+        android:elevation="@dimen/fab_elevation" />
+
+</FrameLayout>
