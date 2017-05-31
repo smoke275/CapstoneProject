@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.smokescreem.shash.foodscout.R;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Shash on 5/20/2017.
@@ -16,9 +16,9 @@ import java.util.ArrayList;
 
 public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.Review> {
 
-    ArrayList<com.smokescreem.shash.foodscout.utils.Review> reviews;
+    List<com.smokescreem.shash.foodscout.utils.apimodel.Review> reviews;
 
-    public ReviewAdapter(ArrayList<com.smokescreem.shash.foodscout.utils.Review> reviews) {
+    public ReviewAdapter(List<com.smokescreem.shash.foodscout.utils.apimodel.Review> reviews) {
         this.reviews = reviews;
     }
 

@@ -19,6 +19,7 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/title_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
@@ -28,7 +29,7 @@
             android:paddingEnd="@dimen/detail_inner_horiz_margin"
             android:paddingStart="@dimen/detail_inner_horiz_margin">
 
-            <com.smokescreem.shash.foodscout.widgets.HeaderTextView
+            <com.koonat.easyfont.TextView
                 android:id="@+id/place_title"
                 style="?android:attr/textAppearanceLarge"
                 android:layout_width="match_parent"
@@ -36,6 +37,7 @@
                 android:fontFamily="sans-serif-condensed"
                 android:lineSpacingMultiplier="0.9"
                 android:paddingBottom="@dimen/detail_metabar_title_bottom_padding"
+                app:font_path="BebasNeue_Book.ttf"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/detail_title_text_size"
                 android:textStyle="bold" />

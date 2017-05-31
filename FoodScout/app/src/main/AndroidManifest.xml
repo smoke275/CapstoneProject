@@ -38,11 +38,11 @@
             android:authorities="com.smokescreem.shash.foodscout.MemoryProvider"
             android:exported="false" />
 
-        <activity android:name=".ui.MemoryActivity" />
+        <activity android:name=".ui.DiaryActivity" />
         <activity
-            android:name=".ui.MemoryDetailsActivity"
+            android:name=".ui.DiaryDetailsActivity"
             android:label="@string/title_activity_memory_details"
-            android:parentActivityName=".ui.MemoryActivity"
+            android:parentActivityName=".ui.DiaryActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

@@ -9,10 +9,10 @@
     android:paddingStart="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".ui.MemoryDetailsActivity"
-    tools:showIn="@layout/activity_memory_details">
+    tools:context=".ui.DiaryDetailsActivity"
+    tools:showIn="@layout/activity_diary_details">
 
-    <com.smokescreem.shash.foodscout.widgets.CustomEditText
+    <com.koonat.easyfont.EditText
         android:id="@+id/header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -20,6 +20,7 @@
         android:layout_alignParentTop="true"
         android:hint="@string/enter_a_title"
         android:inputType="none"
+        app:font_path="Kingthings_Calligraphica_Italic.ttf"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <View
@@ -31,7 +32,7 @@
         android:layout_margin="8dp"
         android:background="@android:color/darker_gray" />
 
-    <com.smokescreem.shash.foodscout.widgets.CustomEditText
+    <com.koonat.easyfont.EditText
         android:id="@+id/body"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -46,6 +47,7 @@
         android:minLines="10"
         android:scrollHorizontally="false"
         android:scrollbars="vertical"
+        app:font_path="Kingthings_Calligraphica_Italic.ttf"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextClock

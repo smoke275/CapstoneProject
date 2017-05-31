@@ -43,12 +43,15 @@
         android:paddingBottom="@dimen/cards_padding_from_edge_of_screen_to_card"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <ProgressBar
+    <com.crystal.crystalpreloaders.widgets.CrystalPreloader
         android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        app:crs_pl_style="skype_balls"
+        app:crs_pl_size="small"
+        app:crs_pl_fg_color="@color/accent"
+        app:crs_pl_bg_color="#fff"
         android:visibility="gone" />
 
     <!-- view for AdMob Banner Ad -->

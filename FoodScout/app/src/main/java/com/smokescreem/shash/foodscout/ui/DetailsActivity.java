@@ -3,6 +3,7 @@ package com.smokescreem.shash.foodscout.ui;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -19,6 +21,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.akexorcist.googledirection.DirectionCallback;
@@ -27,6 +30,10 @@ import com.akexorcist.googledirection.model.Direction;
 import com.akexorcist.googledirection.util.DirectionConverter;
 import com.apg.mobile.roundtextview.RoundTextView;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -38,19 +45,20 @@ import com.hsalf.smilerating.SmileRating;
 import com.smokescreem.shash.foodscout.R;
 import com.smokescreem.shash.foodscout.utils.Constants;
 import com.smokescreem.shash.foodscout.utils.Coordinate;
-import com.smokescreem.shash.foodscout.utils.HttpAsyncTask;
 import com.smokescreem.shash.foodscout.utils.MenuData;
 import com.smokescreem.shash.foodscout.utils.ReviewAdapter;
-import com.smokescreem.shash.foodscout.utils.Review;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.smokescreem.shash.foodscout.utils.api.PlacesApi;
+import com.smokescreem.shash.foodscout.utils.api.PlacesApiClient;
+import com.smokescreem.shash.foodscout.utils.apimodel.Review;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by Shash on 5/20/2017.
@@ -62,9 +70,11 @@ public class DetailsActivity extends AppCompatActivity implements OnMapReadyCall
     @BindView(R.id.navigate)
     br.com.bloder.magic.view.MagicButton navigate;
     @BindView(R.id.place_title)
-    TextView placeTitle;
+    com.koonat.easyfont.TextView placeTitle;
     @BindView(R.id.address)
     TextView address;
+    @BindView(R.id.title_layout)
+    LinearLayout titleLayout;
     @BindView(R.id.open)
     RoundTextView open;
     @BindView(R.id.img)
@@ -115,6 +125,25 @@ public class DetailsActivity extends AppCompatActivity implements OnMapReadyCall
                 + "&key=" + Constants.API_KEY;
         Glide.with(this)
                 .load(backdropUrl)
+                .listener(new RequestListener<String, GlideDrawable>() {
+                    @Override
+                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                        Bitmap bitmap = ((GlideBitmapDrawable) resource.getCurrent()).getBitmap();
+                        Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+                            public void onGenerated(Palette palette) {
+                                int defaultColor = 0xFF333333;
+                                int darkMutedColor = palette.getDarkMutedColor(defaultColor);
+                                titleLayout.setBackgroundColor(darkMutedColor);
+                            }
+                        });
+                        return false;
+                    }
+                })
                 .into(img);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapFragment);
         mapFragment.getMapAsync(this);
@@ -195,31 +224,24 @@ public class DetailsActivity extends AppCompatActivity implements OnMapReadyCall
     }
 
     private void getReviews() {
-        String urlReview = "https://maps.googleapis.com/maps/api/place/details/json?" +
-                "placeid=" + destinationData.getPlaceID() +
-                "&key=" + Constants.API_KEY;
-        Log.d(TAG, "getReviews: " + urlReview);
-        HttpAsyncTask reviewGetterTask = new HttpAsyncTask(new HttpAsyncTask.OnFinish() {
-            @Override
-            public void processData(JSONArray array, JSONObject jsonObject) {
-                try {
-                    JSONArray reviewList = jsonObject.getJSONArray("reviews");
-                    ArrayList<Review> reviews = new ArrayList<>();
-                    for (int i = 0; i < reviewList.length(); i++) {
-                        JSONObject review = reviewList.getJSONObject(i);
-                        Log.d(TAG, "processData: " + review.getString("author_name"));
-                        Review reviewData = new Review(review.getString("author_name"), review.getString("text"));
-                        reviews.add(reviewData);
-                    }
 
-                    ReviewAdapter reviewAdapter = new ReviewAdapter(reviews);
-                    reviewRecyclerView.setAdapter(reviewAdapter);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+        PlacesApi placesAPI = PlacesApiClient.getClient().create(PlacesApi.class);
+
+        Call<Review.Response> reviewCall = placesAPI.getReviews(destinationData.getPlaceID(), Constants.API_KEY);
+
+        reviewCall.enqueue(new Callback<Review.Response>() {
+            @Override
+            public void onResponse(Call<Review.Response> call, Response<Review.Response> response) {
+                List<Review> reviews = response.body().reviewSection.reviews;
+                ReviewAdapter reviewAdapter = new ReviewAdapter(reviews);
+                reviewRecyclerView.setAdapter(reviewAdapter);
             }
-        }, this);
-        reviewGetterTask.execute(urlReview);
+
+            @Override
+            public void onFailure(Call<Review.Response> call, Throwable t) {
+                Log.e(TAG, t.toString());
+            }
+        });
     }
 
 }

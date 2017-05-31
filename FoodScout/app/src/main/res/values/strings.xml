@@ -24,6 +24,9 @@
     <string name="create_a_memory">Create a memory</string>
     <string name="enter_a_title">Enter a Title</string>
     <string name="navigate_button_text">Navigate</string>
+    <string name="saving">Saving ....</string>
+    <string name="in_edit_mode">Opening in Edit mode</string>
+    <string name="undo">UNDO</string>
 
     <!-- -
         This is an ad unit ID for a banner test ad. Replace with your own banner ad unit id.

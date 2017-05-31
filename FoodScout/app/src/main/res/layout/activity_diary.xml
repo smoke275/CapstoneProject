@@ -44,11 +44,11 @@
         android:id="@+id/memory_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clipToPadding="false"
         android:nestedScrollingEnabled="true"
-        android:paddingBottom="@dimen/recycler_bottom_padding"
-        android:paddingEnd="@dimen/list_side_margin"
-        android:paddingStart="@dimen/list_side_margin"
+        android:paddingTop="@dimen/cards_padding_from_edge_of_screen_to_card"
+        android:paddingLeft="@dimen/cards_padding_from_edge_of_screen_to_card"
+        android:paddingRight="@dimen/cards_padding_from_edge_of_screen_to_card"
+        android:paddingBottom="@dimen/cards_padding_from_edge_of_screen_to_card"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <android.support.design.widget.FloatingActionButton

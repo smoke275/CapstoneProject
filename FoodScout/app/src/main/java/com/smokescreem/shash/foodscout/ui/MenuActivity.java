@@ -8,26 +8,28 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.crystal.crystalpreloaders.widgets.CrystalPreloader;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.smokescreem.shash.foodscout.R;
 import com.smokescreem.shash.foodscout.utils.Constants;
 import com.smokescreem.shash.foodscout.utils.Coordinate;
-import com.smokescreem.shash.foodscout.utils.HttpAsyncTask;
 import com.smokescreem.shash.foodscout.utils.MenuAdapter;
 import com.smokescreem.shash.foodscout.utils.MenuData;
 import com.smokescreem.shash.foodscout.utils.Utils;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
+import com.smokescreem.shash.foodscout.utils.api.PlacesApi;
+import com.smokescreem.shash.foodscout.utils.api.PlacesApiClient;
+import com.smokescreem.shash.foodscout.utils.apimodel.Restaurant;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by Shash on 5/20/2017.
@@ -39,7 +41,7 @@ public class MenuActivity extends AppCompatActivity {
     @BindView(R.id.title_menu)
     TextView title;
     @BindView(R.id.progressBar)
-    ProgressBar progressBar;
+    CrystalPreloader progressBar;
     @BindView(R.id.recycler_view_menu)
     RecyclerView recyclerView;
     private Coordinate coordinate;
@@ -84,31 +86,16 @@ public class MenuActivity extends AppCompatActivity {
 
     public boolean getPlaces(String mode) {
         try {
-            String params = "";
-            if (mode.equalsIgnoreCase(getResources().getString(R.string.places))) {
-                for (String parameter : Constants.PLACES_OF_INTEREST) {
-                    params += parameter + "|";
-                }
-            } else if (mode.equalsIgnoreCase(getResources().getString(R.string.restaurant))) {
-                params = "restaurant|cafe";
-            } else if (mode.equalsIgnoreCase(getResources().getString(R.string.hotels))) {
-                params = "lodging";
-            }
-            params = params.substring(0, params.length() - 1);
-            StringBuilder query = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
-            query.append("location=")
-                    .append(coordinate.getLatitude())
-                    .append(",")
-                    .append(coordinate.getLongitude());
-            query.append("&type=").append(params);
-            query.append("&rankby=prominence");
-            query.append("&radius=10000");
-            query.append("&key=" + Constants.API_KEY);
-            Log.d(TAG, "getPlaces: " + query);
-            final HttpAsyncTask asyncTask = new HttpAsyncTask(new HttpAsyncTask.OnFinish() {
+
+            PlacesApi placesAPI = PlacesApiClient.getClient().create(PlacesApi.class);
+
+            Call<Restaurant.Response> reviewCall = placesAPI.getRestaurants(coordinate.getLatitude() + "," + coordinate.getLongitude(), Constants.API_KEY);
+            Log.e(TAG, reviewCall.request().toString());
+            reviewCall.enqueue(new Callback<Restaurant.Response>() {
                 @Override
-                public void processData(JSONArray array, JSONObject object) {
-                    List<MenuData> data = Utils.parseData(array);
+                public void onResponse(Call<Restaurant.Response> call, Response<Restaurant.Response> response) {
+                    List<Restaurant> restaurants = response.body().restaurants;
+                    List<MenuData> data = Utils.parseData(restaurants);
                     Log.d(TAG, "processData: " + data.size());
                     MenuAdapter adapter = new MenuAdapter(data, new MenuAdapter.OnItemClickListener() {
                         @Override
@@ -122,8 +109,12 @@ public class MenuActivity extends AppCompatActivity {
                     progressBar.setVisibility(View.GONE);
                     recyclerView.setAdapter(adapter);
                 }
-            }, this);
-            asyncTask.execute(query.toString());
+
+                @Override
+                public void onFailure(Call<Restaurant.Response> call, Throwable t) {
+                    Log.e(TAG, t.toString());
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
             return false;

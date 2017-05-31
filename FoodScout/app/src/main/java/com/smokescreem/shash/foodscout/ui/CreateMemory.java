@@ -21,7 +21,7 @@ public class CreateMemory extends AppWidgetProvider {
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.create_memory);
 
-        Intent intent = new Intent(context, MemoryDetailsActivity.class);
+        Intent intent = new Intent(context, DiaryDetailsActivity.class);
         intent.putExtra("mode", 1);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
         views.setOnClickPendingIntent(R.id.widget_layout, pendingIntent);

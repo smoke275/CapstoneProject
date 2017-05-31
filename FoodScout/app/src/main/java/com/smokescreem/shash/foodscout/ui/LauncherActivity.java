@@ -22,16 +22,18 @@ import com.google.android.gms.location.LocationServices;
 import com.smokescreem.shash.foodscout.R;
 import com.smokescreem.shash.foodscout.utils.Constants;
 import com.smokescreem.shash.foodscout.utils.Coordinate;
-import com.smokescreem.shash.foodscout.utils.HttpAsyncTask;
 import com.smokescreem.shash.foodscout.utils.Utils;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.smokescreem.shash.foodscout.utils.api.PlacesApi;
+import com.smokescreem.shash.foodscout.utils.api.PlacesApiClient;
+import com.smokescreem.shash.foodscout.utils.apimodel.Place;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by Shash on 5/20/2017.
@@ -145,28 +147,32 @@ public class LauncherActivity extends AppCompatActivity
 
     private void setLocation(final Coordinate location) {
 
-        String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?" +
-                "location=" + location.getLatitude() + "," + location.getLongitude() +
-                "&radius=500&key=" + Constants.API_KEY;
-        HttpAsyncTask asyncTask = new HttpAsyncTask(new HttpAsyncTask.OnFinish() {
+        PlacesApi placesAPI = PlacesApiClient.getClient().create(PlacesApi.class);
+
+        Call<Place.Response> reviewCall = placesAPI.getPlace(location.getLatitude() + "," + location.getLongitude(), Constants.DEFAULT_RADIUS, Constants.API_KEY);
+        Log.e(TAG, reviewCall.request().toString());
+        reviewCall.enqueue(new Callback<Place.Response>() {
             @Override
-            public void processData(JSONArray array, JSONObject object) {
-                try {
-                    location.setPlaceID(array.getJSONObject(0).getString("place_id"));
+            public void onResponse(Call<Place.Response> call, Response<Place.Response> response) {
+                List<Place> places = response.body().places;
+                if(places.size()>0){
+                    location.setPlaceID(places.get(0).getPlaceId());
                     Log.d(TAG, "processData: " + location.getPlaceID());
-                    JSONArray photos = array.getJSONObject(0).getJSONArray("photos");
-                    Log.d(TAG, "processData: " + photos.getJSONObject(0).getString("photo_reference"));
-                    location.setPhotoReference(photos.getJSONObject(0).getString("photo_reference"));
+                    List<Place.Photo> photos = places.get(0).getPhotos();
+                    if(photos.size()>0){
+                        Log.d(TAG, "processData: " + photos.get(0).getPhotoReference());
+                        location.setPhotoReference(photos.get(0).getPhotoReference());
+                    }
                     intent.putExtra("coordinate", location);
                     startActivity(intent);
                     finish();
-                } catch (JSONException e) {
-                    Utils.showToast(getResources().getString(R.string.error), getBaseContext());
-                    e.printStackTrace();
                 }
             }
-        }, this);
 
-        asyncTask.execute(url);
+            @Override
+            public void onFailure(Call<Place.Response> call, Throwable t) {
+                Log.e(TAG, t.toString());
+            }
+        });
     }
 }

@@ -3,9 +3,7 @@ package com.smokescreem.shash.foodscout.utils;
 import android.content.Context;
 import android.widget.Toast;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.smokescreem.shash.foodscout.utils.apimodel.Restaurant;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,36 +20,26 @@ public class Utils {
         Toast.makeText(context, message, Toast.LENGTH_LONG).show();
     }
 
-    public static List<MenuData> parseData(JSONArray array) {
+    public static List<MenuData> parseData(List<Restaurant> array) {
         List<MenuData> parsedList = new ArrayList<>();
-        for (int i = 0; i < array.length(); i++) {
+        for(Restaurant restaurant: array){
+            String name = restaurant.getName();
+            boolean isOpen = false;
+            if(restaurant.getOpeningHours()!=null)
+                isOpen = restaurant.getOpeningHours().getOpenNow();
+            String photoReference = "";
             try {
-                JSONObject place = array.getJSONObject(i);
-                String name = place.getString("name");
-                boolean isOpen = false;
-                try {
-                    JSONObject opening_info = place.getJSONObject("opening_hours");
-                    isOpen = opening_info.optBoolean("open_now", false);
-                } catch (Exception e) {
-                }
-                String photoReference = "";
-                try {
-                    photoReference = place.getJSONArray("photos").getJSONObject(0).getString("photo_reference");
-                } catch (Exception e) {
-                }
-                double rating = place.optDouble("rating", 0.0);
-                String address = place.getString("vicinity");
-                double latitude = place.getJSONObject("geometry")
-                        .getJSONObject("location").getDouble("lat");
-                double longitude = place.getJSONObject("geometry")
-                        .getJSONObject("location").getDouble("lng");
-                String placeId = place.getString("place_id");
-                MenuData placeData = new MenuData(name, address, photoReference,
-                        latitude, longitude, rating, isOpen, placeId);
-                parsedList.add(placeData);
-            } catch (JSONException e) {
-                e.printStackTrace();
+                photoReference = restaurant.getPhotos().get(0).getPhotoReference();
+            } catch (Exception e) {
             }
+            double rating = restaurant.getRating();
+            String address = restaurant.getVicinity();
+            double latitude = restaurant.getGeometry().getLocation().getLat();
+            double longitude = restaurant.getGeometry().getLocation().getLng();
+            String placeId = restaurant.getPlaceId();
+            MenuData placeData = new MenuData(name, address, photoReference,
+                    latitude, longitude, rating, isOpen, placeId);
+            parsedList.add(placeData);
         }
         return parsedList;
     }

@@ -38,7 +38,7 @@
 
     <dimen name="option_image_height">200dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
-
+    <dimen name="material_layout_keylines_screen_edge_margin">10dp</dimen>
 
     <!--
 Refer to App Widget Documentation for margin information

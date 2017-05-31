@@ -21,13 +21,34 @@
             app:expandedTitleMarginStart="@dimen/collapsing_toolbar_margin_start"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <ImageView
-                android:id="@+id/backdrop"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/appbar_layout_height"
-                android:scaleType="centerCrop"
-                app:layout_collapseMode="parallax"
-                tools:ignore="ContentDescription" />
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/backdrop"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/appbar_layout_height"
+                    android:scaleType="centerCrop"
+                    app:layout_collapseMode="parallax"
+                    tools:ignore="ContentDescription" />
+
+
+
+                    <TextView
+                        android:id="@+id/subtitle"
+                        style="?android:attr/textAppearanceMedium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:textColor="@color/text_white"
+                        android:paddingLeft="@dimen/collapsing_toolbar_margin_start"
+                        android:paddingBottom="@dimen/material_layout_keylines_screen_edge_margin"
+                        android:layout_gravity="bottom|start" />
+
+
+            </FrameLayout>
+
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -44,7 +65,7 @@
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clipToPadding="false"
+        android:clipToPadding="true"
         android:nestedScrollingEnabled="true"
         android:paddingTop="@dimen/cards_padding_from_edge_of_screen_to_card"
         android:paddingLeft="@dimen/cards_padding_from_edge_of_screen_to_card"

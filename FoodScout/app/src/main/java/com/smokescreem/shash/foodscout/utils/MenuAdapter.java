@@ -3,6 +3,7 @@ package com.smokescreem.shash.foodscout.utils;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,7 @@ import java.util.List;
  */
 
 public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuHolder> {
-
+    private static String TAG = "MenuAdapter";
     List<MenuData> data;
     OnItemClickListener listener;
 
@@ -38,8 +39,11 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuHolder> {
         String backdropUrl = Constants.photoBaseURL + "?maxwidth=" + Constants.imageResolution
                 + "&photoreference=" + data.get(position).getThumbnailReference()
                 + "&key=" + Constants.API_KEY;
+        Log.d(TAG, backdropUrl);
         Glide.with(holder.view.getContext())
                 .load(backdropUrl)
+                .placeholder(R.drawable.restoplaceholder)
+                .thumbnail(0.1f)
                 .into(holder.thumbnail);
         holder.title.setText(data.get(position).getTitle());
         holder.address.setText(data.get(position).getAddress());

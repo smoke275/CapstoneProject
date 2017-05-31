@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
@@ -27,9 +28,9 @@ import butterknife.ButterKnife;
  * Created by Shash on 5/20/2017.
  */
 
-public class MemoryDetailsActivity extends AppCompatActivity {
+public class DiaryDetailsActivity extends AppCompatActivity {
 
-    private static final String TAG = "MemoryDetailsActivity";
+    private static final String TAG = "DiaryDetailsActivity";
     private static boolean isEditable = false;
     private static KeyListener headerListener, bodyListener;
     @BindView(R.id.header)
@@ -42,7 +43,7 @@ public class MemoryDetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_memory_details);
+        setContentView(R.layout.activity_diary_details);
         mode = getIntent().getIntExtra("mode", 1);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -67,6 +68,17 @@ public class MemoryDetailsActivity extends AppCompatActivity {
                         createNewMemory();
                     } else {
                         updateMemory();
+                        Snackbar mySnackbar = Snackbar.make(findViewById(R.id.baseview),
+                                R.string.saving, Snackbar.LENGTH_LONG);
+                        mySnackbar.setAction(R.string.undo, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                header.setText(data.getHeader());
+                                body.setText(data.getBody());
+                                updateMemory();
+                            }
+                        });
+                        mySnackbar.show();
                     }
                     body.setKeyListener(null);
                     header.setKeyListener(null);
@@ -77,6 +89,9 @@ public class MemoryDetailsActivity extends AppCompatActivity {
                     header.setInputType(InputType.TYPE_CLASS_TEXT);
                     body.setInputType(InputType.TYPE_CLASS_TEXT);
                     fab.setImageDrawable(getDrawable(R.drawable.ic_save_white_24dp));
+                    Snackbar mySnackbar = Snackbar.make(findViewById(R.id.baseview),
+                            R.string.in_edit_mode, Snackbar.LENGTH_LONG);
+                    mySnackbar.show();
                 }
                 isEditable = !isEditable;
             }

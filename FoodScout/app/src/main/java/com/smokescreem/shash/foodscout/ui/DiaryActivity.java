@@ -34,9 +34,9 @@ import butterknife.ButterKnife;
  * Created by Shash on 5/20/2017.
  */
 
-public class MemoryActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class DiaryActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private static final String TAG = "MemoryActivity";
+    private static final String TAG = "DiaryActivity";
     private static final int URL_LOADER = 0;
     @BindView(R.id.memory_recycler_view)
     RecyclerView recyclerView;
@@ -49,7 +49,7 @@ public class MemoryActivity extends AppCompatActivity implements LoaderManager.L
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_memory);
+        setContentView(R.layout.activity_diary);
         ButterKnife.bind(this);
         CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.memory_collapsing_toolbar);
         collapsingToolbarLayout.setTitle(getString(R.string.memory_title));
@@ -69,7 +69,7 @@ public class MemoryActivity extends AppCompatActivity implements LoaderManager.L
         memoryAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getBaseContext(), MemoryDetailsActivity.class);
+                Intent intent = new Intent(getBaseContext(), DiaryDetailsActivity.class);
                 intent.putExtra("mode", 1);
                 startActivity(intent);
             }
@@ -122,7 +122,7 @@ public class MemoryActivity extends AppCompatActivity implements LoaderManager.L
             public void onItemClick(MemoryData data) {
                 Log.d(TAG, "onItemClick: " + data.getHeader());
                 Log.d(TAG, "onItemClick: " + data.getBody() + " " + data.getId());
-                Intent intent = new Intent(getBaseContext(), MemoryDetailsActivity.class);
+                Intent intent = new Intent(getBaseContext(), DiaryDetailsActivity.class);
                 intent.putExtra("mode", 2);
                 intent.putExtra("data", data);
                 startActivity(intent);

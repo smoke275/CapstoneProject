@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -31,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.recycler_view)
     RecyclerView options;
     private Coordinate coordinate;
+    @BindView(R.id.subtitle)
+    TextView subtitle;
 
 
     @Override
@@ -40,13 +43,16 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         coordinate = (Coordinate) getIntent().getSerializableExtra("coordinate");
         CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        collapsingToolbarLayout.setTitle(coordinate.getName());
+        String name[] = coordinate.getName().split(",");
+        collapsingToolbarLayout.setTitle(name[0]);
+        subtitle.setText(name[1]);
         String backdropUrl = Constants.photoBaseURL + "?maxwidth=" + Constants.imageResolution
                 + "&photoreference=" + coordinate.getPhotoReference()
                 + "&key=" + Constants.API_KEY;
         Glide.with(this)
                 .load(backdropUrl)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .thumbnail(0.1f)
                 .placeholder(getDrawable(R.drawable.placeholder))
                 .into(cityBackdrop);
         final int columnCount = getResources().getInteger(R.integer.list_column_count);
@@ -65,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                     intent.putExtra("coordinate", coordinate);
                     startActivity(intent);
                 } else {
-                    Intent intent = new Intent(getBaseContext(), MemoryActivity.class);
+                    Intent intent = new Intent(getBaseContext(), DiaryActivity.class);
                     intent.putExtra("coordinate", coordinate);
                     startActivity(intent);
                 }
