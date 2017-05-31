@@ -122,7 +122,7 @@ public class DetailsActivity extends AppCompatActivity implements OnMapReadyCall
         collapsingToolbarLayout.setExpandedTitleColor(Color.alpha(0));
         String backdropUrl = Constants.photoBaseURL + "?maxwidth=" + Constants.imageResolution
                 + "&photoreference=" + destinationData.getThumbnailReference()
-                + "&key=" + Constants.API_KEY;
+                + "&key=" + getResources().getString(R.string.google_places_API);
         Glide.with(this)
                 .load(backdropUrl)
                 .listener(new RequestListener<String, GlideDrawable>() {
@@ -227,7 +227,7 @@ public class DetailsActivity extends AppCompatActivity implements OnMapReadyCall
 
         PlacesApi placesAPI = PlacesApiClient.getClient().create(PlacesApi.class);
 
-        Call<Review.Response> reviewCall = placesAPI.getReviews(destinationData.getPlaceID(), Constants.API_KEY);
+        Call<Review.Response> reviewCall = placesAPI.getReviews(destinationData.getPlaceID(), getResources().getString(R.string.google_places_API));
 
         reviewCall.enqueue(new Callback<Review.Response>() {
             @Override

@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         subtitle.setText(name[1]);
         String backdropUrl = Constants.photoBaseURL + "?maxwidth=" + Constants.imageResolution
                 + "&photoreference=" + coordinate.getPhotoReference()
-                + "&key=" + Constants.API_KEY;
+                + "&key=" + getResources().getString(R.string.google_places_API);
         Glide.with(this)
                 .load(backdropUrl)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)

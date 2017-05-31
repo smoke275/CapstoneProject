@@ -149,7 +149,7 @@ public class LauncherActivity extends AppCompatActivity
 
         PlacesApi placesAPI = PlacesApiClient.getClient().create(PlacesApi.class);
 
-        Call<Place.Response> reviewCall = placesAPI.getPlace(location.getLatitude() + "," + location.getLongitude(), Constants.DEFAULT_RADIUS, Constants.API_KEY);
+        Call<Place.Response> reviewCall = placesAPI.getPlace(location.getLatitude() + "," + location.getLongitude(), Constants.DEFAULT_RADIUS, getResources().getString(R.string.google_places_API));
         Log.e(TAG, reviewCall.request().toString());
         reviewCall.enqueue(new Callback<Place.Response>() {
             @Override

@@ -1,5 +1,5 @@
 <resources>
-    <string name="google_places_API">AIzaSyCDjxRJjtacS98bkeborirCEcM4LHamP8k</string>
+    <string name="google_places_API">YOUR KEY</string>
 
     <string name="app_name" translatable="false">FoodScout</string>
     <string name="required">Location is required</string>

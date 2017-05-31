@@ -3,6 +3,14 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
+    signingConfigs {
+        config {
+            keyAlias 'foodscout'
+            keyPassword 'capstone'
+            storeFile file('src/main/keys.jks')
+            storePassword 'capstone'
+        }
+    }
     defaultConfig {
         applicationId "com.smokescreem.shash.foodscout"
         minSdkVersion 21
@@ -16,6 +24,8 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            zipAlignEnabled true
+            signingConfig signingConfigs.config
         }
     }
 }

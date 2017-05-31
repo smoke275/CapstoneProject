@@ -14,7 +14,6 @@ import com.crystal.crystalpreloaders.widgets.CrystalPreloader;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.smokescreem.shash.foodscout.R;
-import com.smokescreem.shash.foodscout.utils.Constants;
 import com.smokescreem.shash.foodscout.utils.Coordinate;
 import com.smokescreem.shash.foodscout.utils.MenuAdapter;
 import com.smokescreem.shash.foodscout.utils.MenuData;
@@ -89,7 +88,7 @@ public class MenuActivity extends AppCompatActivity {
 
             PlacesApi placesAPI = PlacesApiClient.getClient().create(PlacesApi.class);
 
-            Call<Restaurant.Response> reviewCall = placesAPI.getRestaurants(coordinate.getLatitude() + "," + coordinate.getLongitude(), Constants.API_KEY);
+            Call<Restaurant.Response> reviewCall = placesAPI.getRestaurants(coordinate.getLatitude() + "," + coordinate.getLongitude(), getResources().getString(R.string.google_places_API));
             Log.e(TAG, reviewCall.request().toString());
             reviewCall.enqueue(new Callback<Restaurant.Response>() {
                 @Override

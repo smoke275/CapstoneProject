@@ -15,5 +15,5 @@ public class Constants extends Application {
      */
     public static String PLACES_BASE_URL = "https://maps.googleapis.com/maps/api/place/";
     public static String DEFAULT_RADIUS = "500";
-    public static String API_KEY = "AIzaSyCDjxRJjtacS98bkeborirCEcM4LHamP8k";
+    public static String API_KEY = "<YOUR_KEY>";
 }
