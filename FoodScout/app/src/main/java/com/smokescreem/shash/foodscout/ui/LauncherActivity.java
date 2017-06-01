@@ -21,7 +21,7 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.smokescreem.shash.foodscout.R;
 import com.smokescreem.shash.foodscout.utils.Constants;
-import com.smokescreem.shash.foodscout.utils.Coordinate;
+import com.smokescreem.shash.foodscout.utils.RestaurantCoordinate;
 import com.smokescreem.shash.foodscout.utils.Utils;
 import com.smokescreem.shash.foodscout.utils.api.PlacesApi;
 import com.smokescreem.shash.foodscout.utils.api.PlacesApiClient;
@@ -109,7 +109,7 @@ public class LauncherActivity extends AppCompatActivity
     public void onLocationChanged(Location location) {
         Log.d(TAG, "onLocationChanged: " + location.getLatitude() + " " + location.getLongitude());
         intent = new Intent(this, MainActivity.class);
-        Coordinate locale = new Coordinate(location.getLatitude(), location.getLongitude());
+        RestaurantCoordinate locale = new RestaurantCoordinate(location.getLatitude(), location.getLongitude());
         setLocation(locale);
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
         try {
@@ -145,7 +145,7 @@ public class LauncherActivity extends AppCompatActivity
     }
 
 
-    private void setLocation(final Coordinate location) {
+    private void setLocation(final RestaurantCoordinate location) {
 
         PlacesApi placesAPI = PlacesApiClient.getClient().create(PlacesApi.class);
 
@@ -163,7 +163,7 @@ public class LauncherActivity extends AppCompatActivity
                         Log.d(TAG, "processData: " + photos.get(0).getPhotoReference());
                         location.setPhotoReference(photos.get(0).getPhotoReference());
                     }
-                    intent.putExtra("coordinate", location);
+                    intent.putExtra("restaurantCoordinate", location);
                     startActivity(intent);
                     finish();
                 }

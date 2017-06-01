@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.smokescreem.shash.foodscout.R;
-import com.smokescreem.shash.foodscout.data.MemoryData;
+import com.smokescreem.shash.foodscout.data.DiaryData;
 
 import java.util.ArrayList;
 
@@ -19,10 +19,10 @@ import java.util.ArrayList;
 public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.Memory> {
 
     private static final String TAG = "MemoryAdapter";
-    ArrayList<MemoryData> memory;
+    ArrayList<DiaryData> memory;
     OnItemClickListener clickListener;
 
-    public MemoryAdapter(ArrayList<MemoryData> memory, OnItemClickListener clickListener) {
+    public MemoryAdapter(ArrayList<DiaryData> memory, OnItemClickListener clickListener) {
         this.memory = memory;
         this.clickListener = clickListener;
     }
@@ -30,7 +30,7 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.Memory> {
     @Override
     public Memory onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.memory_card_layout, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.diary_card_layout, parent, false);
         return new Memory(view);
     }
 
@@ -51,7 +51,7 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.Memory> {
     }
 
     public interface OnItemClickListener {
-        void onItemClick(MemoryData data);
+        void onItemClick(DiaryData data);
     }
 
     public class Memory extends RecyclerView.ViewHolder {
@@ -64,7 +64,7 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.Memory> {
             body = (TextView) itemView.findViewById(R.id.memory_body);
         }
 
-        public void bind(final MemoryData clickData, final OnItemClickListener clickListener) {
+        public void bind(final DiaryData clickData, final OnItemClickListener clickListener) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

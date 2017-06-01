@@ -14,8 +14,6 @@ import java.util.List;
 
 public class Utils {
 
-    private static String TAG = "Utils";
-
     public static void showToast(String message, Context context) {
         Toast.makeText(context, message, Toast.LENGTH_LONG).show();
     }

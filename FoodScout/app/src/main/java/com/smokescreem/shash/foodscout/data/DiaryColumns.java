@@ -8,7 +8,7 @@ import net.simonvt.schematic.annotation.PrimaryKey;
  * Created by Shash on 5/20/2017.
  */
 
-public interface MemoryColumns {
+public interface DiaryColumns {
     @DataType(DataType.Type.TEXT)
     @PrimaryKey
     String ID = "id";

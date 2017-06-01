@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by Shash on 5/20/2017.
  */
 
-public class Coordinate implements Serializable {
+public class RestaurantCoordinate implements Serializable {
 
     private double latitude;
     private double longitude;
@@ -14,7 +14,7 @@ public class Coordinate implements Serializable {
     private String name;
     private String photoReference;
 
-    public Coordinate(double latitude, double longitude) {
+    public RestaurantCoordinate(double latitude, double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
         placeID = "";
@@ -22,12 +22,12 @@ public class Coordinate implements Serializable {
         photoReference = "";
     }
 
-    public Coordinate(Coordinate coordinate) {
-        this.latitude = coordinate.latitude;
-        this.longitude = coordinate.longitude;
-        this.placeID = coordinate.placeID;
-        this.name = coordinate.name;
-        this.photoReference = coordinate.photoReference;
+    public RestaurantCoordinate(RestaurantCoordinate restaurantCoordinate) {
+        this.latitude = restaurantCoordinate.latitude;
+        this.longitude = restaurantCoordinate.longitude;
+        this.placeID = restaurantCoordinate.placeID;
+        this.name = restaurantCoordinate.name;
+        this.photoReference = restaurantCoordinate.photoReference;
     }
 
     public double getLongitude() {

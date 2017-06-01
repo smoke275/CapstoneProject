@@ -14,11 +14,11 @@ import net.simonvt.schematic.annotation.Table;
  * Created by Shash on 5/20/2017.
  */
 
-@Database(version = MemoryDatabase.VERSION,
+@Database(version = DiaryDatabase.VERSION,
         packageName = "com.smokescreem.shash.foodscout.provider")
-public class MemoryDatabase {
+public class DiaryDatabase {
     public static final int VERSION = 1;
-    @Table(MemoryColumns.class)
+    @Table(DiaryColumns.class)
     public static final String MEMORY = "memory";
     @ExecOnCreate
     public static final String EXEC_ON_CREATE = "SELECT * FROM " + MEMORY;

@@ -14,7 +14,7 @@ import com.crystal.crystalpreloaders.widgets.CrystalPreloader;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.smokescreem.shash.foodscout.R;
-import com.smokescreem.shash.foodscout.utils.Coordinate;
+import com.smokescreem.shash.foodscout.utils.RestaurantCoordinate;
 import com.smokescreem.shash.foodscout.utils.MenuAdapter;
 import com.smokescreem.shash.foodscout.utils.MenuData;
 import com.smokescreem.shash.foodscout.utils.Utils;
@@ -43,7 +43,7 @@ public class MenuActivity extends AppCompatActivity {
     CrystalPreloader progressBar;
     @BindView(R.id.recycler_view_menu)
     RecyclerView recyclerView;
-    private Coordinate coordinate;
+    private RestaurantCoordinate restaurantCoordinate;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -62,9 +62,9 @@ public class MenuActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String mode = intent.getStringExtra("mode");
         Log.d(TAG, "onCreate: " + mode);
-        coordinate = (Coordinate) intent.getSerializableExtra("coordinate");
+        restaurantCoordinate = (RestaurantCoordinate) intent.getSerializableExtra("restaurantCoordinate");
         title.setText(mode);
-        Log.d(TAG, "onCreate: " + coordinate.getPlaceID());
+        Log.d(TAG, "onCreate: " + restaurantCoordinate.getPlaceID());
         progressBar.setVisibility(View.VISIBLE);
         boolean status = getPlaces(mode);
         Log.d(TAG, "onCreate: " + status);
@@ -88,7 +88,7 @@ public class MenuActivity extends AppCompatActivity {
 
             PlacesApi placesAPI = PlacesApiClient.getClient().create(PlacesApi.class);
 
-            Call<Restaurant.Response> reviewCall = placesAPI.getRestaurants(coordinate.getLatitude() + "," + coordinate.getLongitude(), getResources().getString(R.string.google_places_API));
+            Call<Restaurant.Response> reviewCall = placesAPI.getRestaurants(restaurantCoordinate.getLatitude() + "," + restaurantCoordinate.getLongitude(), getResources().getString(R.string.google_places_API));
             Log.e(TAG, reviewCall.request().toString());
             reviewCall.enqueue(new Callback<Restaurant.Response>() {
                 @Override
@@ -101,7 +101,7 @@ public class MenuActivity extends AppCompatActivity {
                         public void onItemClick(MenuData data) {
                             Intent intent = new Intent(getBaseContext(), DetailsActivity.class);
                             intent.putExtra("data", data);
-                            intent.putExtra("coordinate", coordinate);
+                            intent.putExtra("restaurantCoordinate", restaurantCoordinate);
                             startActivity(intent);
                         }
                     });

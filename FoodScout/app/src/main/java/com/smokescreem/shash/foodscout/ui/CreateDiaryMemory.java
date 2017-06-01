@@ -13,7 +13,7 @@ import com.smokescreem.shash.foodscout.R;
  * Created by Shash on 5/20/2017.
  */
 
-public class CreateMemory extends AppWidgetProvider {
+public class CreateDiaryMemory extends AppWidgetProvider {
 
     private static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                         int appWidgetId) {

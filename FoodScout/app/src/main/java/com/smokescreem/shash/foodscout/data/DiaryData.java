@@ -6,11 +6,11 @@ import java.io.Serializable;
  * Created by Shash on 5/20/2017.
  */
 
-public class MemoryData implements Serializable {
+public class DiaryData implements Serializable {
 
     private String id, date, header, body, latitude, longitude;
 
-    public MemoryData(String id, String date, String header, String body, String latitude, String longitude) {
+    public DiaryData(String id, String date, String header, String body, String latitude, String longitude) {
         this.id = id;
         this.date = date;
         this.header = header;

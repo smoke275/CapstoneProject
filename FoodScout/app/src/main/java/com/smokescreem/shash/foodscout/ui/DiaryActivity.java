@@ -18,11 +18,11 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.smokescreem.shash.foodscout.R;
-import com.smokescreem.shash.foodscout.utils.Coordinate;
+import com.smokescreem.shash.foodscout.data.DiaryColumns;
+import com.smokescreem.shash.foodscout.utils.RestaurantCoordinate;
 import com.smokescreem.shash.foodscout.utils.MemoryAdapter;
-import com.smokescreem.shash.foodscout.data.MemoryColumns;
-import com.smokescreem.shash.foodscout.data.MemoryData;
-import com.smokescreem.shash.foodscout.data.MemoryProvider;
+import com.smokescreem.shash.foodscout.data.DiaryData;
+import com.smokescreem.shash.foodscout.data.DiaryProvider;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,7 +44,7 @@ public class DiaryActivity extends AppCompatActivity implements LoaderManager.Lo
     FloatingActionButton memoryAdd;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    Coordinate coordinate;
+    RestaurantCoordinate restaurantCoordinate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +64,7 @@ public class DiaryActivity extends AppCompatActivity implements LoaderManager.Lo
         );
         recyclerView.setLayoutManager(layoutManager);
         Intent intent = getIntent();
-        coordinate = (Coordinate) intent.getSerializableExtra("coordinate");
+        restaurantCoordinate = (RestaurantCoordinate) intent.getSerializableExtra("restaurantCoordinate");
 
         memoryAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,30 +96,30 @@ public class DiaryActivity extends AppCompatActivity implements LoaderManager.Lo
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return new CursorLoader(this, MemoryProvider.Memories.CONTENT_URI, null, null, null, null);
+        return new CursorLoader(this, DiaryProvider.Memories.CONTENT_URI, null, null, null, null);
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
 
         cursor.moveToFirst();
-        ArrayList<MemoryData> memoryList = new ArrayList<>();
+        ArrayList<DiaryData> memoryList = new ArrayList<>();
         while (!cursor.isAfterLast()) {
             Log.d(TAG, "getMemories: " + Arrays.toString(cursor.getColumnNames()));
-            MemoryData data = new MemoryData(
-                    cursor.getString(cursor.getColumnIndex(MemoryColumns.ID)),
-                    cursor.getString(cursor.getColumnIndex(MemoryColumns.DATE)),
-                    cursor.getString(cursor.getColumnIndex(MemoryColumns.HEADER)),
-                    cursor.getString(cursor.getColumnIndex(MemoryColumns.BODY)),
-                    cursor.getString(cursor.getColumnIndex(MemoryColumns.LATITUDE)),
-                    cursor.getString(cursor.getColumnIndex(MemoryColumns.LONGITUDE))
+            DiaryData data = new DiaryData(
+                    cursor.getString(cursor.getColumnIndex(DiaryColumns.ID)),
+                    cursor.getString(cursor.getColumnIndex(DiaryColumns.DATE)),
+                    cursor.getString(cursor.getColumnIndex(DiaryColumns.HEADER)),
+                    cursor.getString(cursor.getColumnIndex(DiaryColumns.BODY)),
+                    cursor.getString(cursor.getColumnIndex(DiaryColumns.LATITUDE)),
+                    cursor.getString(cursor.getColumnIndex(DiaryColumns.LONGITUDE))
             );
             memoryList.add(data);
             cursor.moveToNext();
         }
         MemoryAdapter adapter = new MemoryAdapter(memoryList, new MemoryAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(MemoryData data) {
+            public void onItemClick(DiaryData data) {
                 Log.d(TAG, "onItemClick: " + data.getHeader());
                 Log.d(TAG, "onItemClick: " + data.getBody() + " " + data.getId());
                 Intent intent = new Intent(getBaseContext(), DiaryDetailsActivity.class);

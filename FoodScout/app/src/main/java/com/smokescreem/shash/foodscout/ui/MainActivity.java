@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.smokescreem.shash.foodscout.R;
 import com.smokescreem.shash.foodscout.utils.Constants;
-import com.smokescreem.shash.foodscout.utils.Coordinate;
+import com.smokescreem.shash.foodscout.utils.RestaurantCoordinate;
 import com.smokescreem.shash.foodscout.utils.OptionsAdapter;
 import com.smokescreem.shash.foodscout.utils.OptionsData;
 
@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView cityBackdrop;
     @BindView(R.id.recycler_view)
     RecyclerView options;
-    private Coordinate coordinate;
+    private RestaurantCoordinate restaurantCoordinate;
     @BindView(R.id.subtitle)
     TextView subtitle;
 
@@ -41,13 +41,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        coordinate = (Coordinate) getIntent().getSerializableExtra("coordinate");
+        restaurantCoordinate = (RestaurantCoordinate) getIntent().getSerializableExtra("restaurantCoordinate");
         CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        String name[] = coordinate.getName().split(",");
+        String name[] = restaurantCoordinate.getName().split(",");
         collapsingToolbarLayout.setTitle(name[0]);
         subtitle.setText(name[1]);
         String backdropUrl = Constants.photoBaseURL + "?maxwidth=" + Constants.imageResolution
-                + "&photoreference=" + coordinate.getPhotoReference()
+                + "&photoreference=" + restaurantCoordinate.getPhotoReference()
                 + "&key=" + getResources().getString(R.string.google_places_API);
         Glide.with(this)
                 .load(backdropUrl)
@@ -68,11 +68,11 @@ public class MainActivity extends AppCompatActivity {
                 if (!data.getOptionName().equalsIgnoreCase("memories")) {
                     Intent intent = new Intent(getBaseContext(), MenuActivity.class);
                     intent.putExtra("mode", data.getOptionName());
-                    intent.putExtra("coordinate", coordinate);
+                    intent.putExtra("restaurantCoordinate", restaurantCoordinate);
                     startActivity(intent);
                 } else {
                     Intent intent = new Intent(getBaseContext(), DiaryActivity.class);
-                    intent.putExtra("coordinate", coordinate);
+                    intent.putExtra("restaurantCoordinate", restaurantCoordinate);
                     startActivity(intent);
                 }
             }

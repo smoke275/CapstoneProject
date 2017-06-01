@@ -15,9 +15,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.smokescreem.shash.foodscout.R;
-import com.smokescreem.shash.foodscout.data.MemoryColumns;
-import com.smokescreem.shash.foodscout.data.MemoryData;
-import com.smokescreem.shash.foodscout.data.MemoryProvider;
+import com.smokescreem.shash.foodscout.data.DiaryColumns;
+import com.smokescreem.shash.foodscout.data.DiaryData;
+import com.smokescreem.shash.foodscout.data.DiaryProvider;
 
 import java.util.Calendar;
 
@@ -38,7 +38,35 @@ public class DiaryDetailsActivity extends AppCompatActivity {
     @BindView(R.id.body)
     TextView body;
     private int mode;
-    private MemoryData data;
+    private DiaryData data;
+
+    private void updateMemory() {
+
+        String id = data.getId();
+        ContentValues values = new ContentValues();
+        values.put(DiaryColumns.BODY, body.getText().toString());
+        values.put(DiaryColumns.HEADER, header.getText().toString());
+        values.put(DiaryColumns.DATE, Calendar.getInstance().getTime().toString());
+        getContentResolver().update(DiaryProvider.Memories.CONTENT_URI, values, DiaryColumns.ID + "=?", new String[]{id});
+    }
+
+    private void createNewMemory() {
+        String id = Double.toString(System.currentTimeMillis() / 1000);
+        ContentValues values = new ContentValues();
+        values.put(DiaryColumns.ID, id);
+        values.put(DiaryColumns.BODY, body.getText().toString());
+        values.put(DiaryColumns.HEADER, header.getText().toString());
+        values.put(DiaryColumns.DATE, Calendar.getInstance().getTime().toString());
+        Uri uri = getContentResolver().insert(DiaryProvider.Memories.CONTENT_URI, values);
+        data = new DiaryData(id,
+                Calendar.getInstance().getTime().toString(),
+                header.getText().toString(),
+                body.getText().toString(),
+                null,
+                null);
+        mode = 2;
+        Log.d(TAG, "createNewMemory: " + uri.toString());
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +82,7 @@ public class DiaryDetailsActivity extends AppCompatActivity {
         header.setKeyListener(null);
         Intent intent = getIntent();
         if (mode == 2) {
-            data = (MemoryData) getIntent().getSerializableExtra("data");
+            data = (DiaryData) getIntent().getSerializableExtra("data");
             header.setText(data.getHeader());
             body.setText(data.getBody());
         }
@@ -66,6 +94,9 @@ public class DiaryDetailsActivity extends AppCompatActivity {
                     //save data
                     if (mode == 1) {
                         createNewMemory();
+                        Snackbar mySnackbar = Snackbar.make(findViewById(R.id.baseview),
+                                R.string.saving, Snackbar.LENGTH_LONG);
+                        mySnackbar.show();
                     } else {
                         updateMemory();
                         Snackbar mySnackbar = Snackbar.make(findViewById(R.id.baseview),
@@ -97,27 +128,6 @@ public class DiaryDetailsActivity extends AppCompatActivity {
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
-    private void updateMemory() {
-
-        String id = data.getId();
-        ContentValues values = new ContentValues();
-        values.put(MemoryColumns.BODY, body.getText().toString());
-        values.put(MemoryColumns.HEADER, header.getText().toString());
-        values.put(MemoryColumns.DATE, Calendar.getInstance().getTime().toString());
-        getContentResolver().update(MemoryProvider.Memories.CONTENT_URI, values, MemoryColumns.ID + "=?", new String[]{id});
-    }
-
-    private void createNewMemory() {
-        String id = Double.toString(System.currentTimeMillis() / 1000);
-        ContentValues values = new ContentValues();
-        values.put(MemoryColumns.ID, id);
-        values.put(MemoryColumns.BODY, body.getText().toString());
-        values.put(MemoryColumns.HEADER, header.getText().toString());
-        values.put(MemoryColumns.DATE, Calendar.getInstance().getTime().toString());
-        Uri uri = getContentResolver().insert(MemoryProvider.Memories.CONTENT_URI, values);
-        Log.d(TAG, "createNewMemory: " + uri.toString());
     }
 
 }

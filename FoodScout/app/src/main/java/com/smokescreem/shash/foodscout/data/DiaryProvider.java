@@ -11,12 +11,12 @@ import net.simonvt.schematic.annotation.TableEndpoint;
  * Created by Shash on 5/20/2017.
  */
 
-@ContentProvider(authority = MemoryProvider.AUTHORITY,
-        database = MemoryDatabase.class,
+@ContentProvider(authority = DiaryProvider.AUTHORITY,
+        database = DiaryDatabase.class,
         packageName = "com.smokescreem.shash.foodscout.provider"
 )
-public class MemoryProvider {
-    public static final String AUTHORITY = "com.smokescreem.shash.foodscout.MemoryProvider";
+public class DiaryProvider {
+    public static final String AUTHORITY = "com.smokescreem.shash.foodscout.DiaryProvider";
     static final Uri BASE_CONTENT_URI = Uri.parse("content://" + AUTHORITY);
 
     public static Uri buildUri(String... paths) {
@@ -27,33 +27,33 @@ public class MemoryProvider {
         return builder.build();
     }
 
-    @TableEndpoint(table = MemoryDatabase.MEMORY)
+    @TableEndpoint(table = DiaryDatabase.MEMORY)
     public static class Memories {
-        @ContentUri(path = MemoryDatabase.MEMORY,
+        @ContentUri(path = DiaryDatabase.MEMORY,
                 type = "vnd.android.cursor.item/memory",
-                defaultSort = MemoryColumns.DATE + " ASC")
-        public static final Uri CONTENT_URI = buildUri(MemoryDatabase.MEMORY);
+                defaultSort = DiaryColumns.DATE + " ASC")
+        public static final Uri CONTENT_URI = buildUri(DiaryDatabase.MEMORY);
 
         @InexactContentUri(
                 name = "MEMORY_BY_ID",
-                path = MemoryDatabase.MEMORY + "/#",
+                path = DiaryDatabase.MEMORY + "/#",
                 type = "vnd.android.cursor.item/memory",
-                whereColumn = MemoryColumns.ID,
+                whereColumn = DiaryColumns.ID,
                 pathSegment = 1
         )
         public static Uri withId(String id) {
-            return buildUri(MemoryDatabase.MEMORY, id);
+            return buildUri(DiaryDatabase.MEMORY, id);
         }
 
         @InexactContentUri(
                 name = "MEMORY_BY_HEADER",
-                path = MemoryDatabase.MEMORY + "/$",
+                path = DiaryDatabase.MEMORY + "/$",
                 type = "vnd.android.cursor.item/memory",
-                whereColumn = MemoryColumns.HEADER,
+                whereColumn = DiaryColumns.HEADER,
                 pathSegment = 1
         )
         public static Uri withTitle(String header) {
-            return buildUri(MemoryDatabase.MEMORY, header);
+            return buildUri(DiaryDatabase.MEMORY, header);
         }
 
     }

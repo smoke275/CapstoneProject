@@ -44,7 +44,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.hsalf.smilerating.SmileRating;
 import com.smokescreem.shash.foodscout.R;
 import com.smokescreem.shash.foodscout.utils.Constants;
-import com.smokescreem.shash.foodscout.utils.Coordinate;
+import com.smokescreem.shash.foodscout.utils.RestaurantCoordinate;
 import com.smokescreem.shash.foodscout.utils.MenuData;
 import com.smokescreem.shash.foodscout.utils.ReviewAdapter;
 import com.smokescreem.shash.foodscout.utils.api.PlacesApi;
@@ -83,7 +83,7 @@ public class DetailsActivity extends AppCompatActivity implements OnMapReadyCall
     SmileRating ratings;
     @BindView(R.id.recycler_view_review)
     RecyclerView reviewRecyclerView;
-    private Coordinate coordinate;
+    private RestaurantCoordinate restaurantCoordinate;
     private MenuData destinationData;
     private GoogleMap googleMap;
     @BindView(R.id.toolbar)
@@ -99,7 +99,7 @@ public class DetailsActivity extends AppCompatActivity implements OnMapReadyCall
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         Intent intent = getIntent();
-        coordinate = (Coordinate) intent.getSerializableExtra("coordinate");
+        restaurantCoordinate = (RestaurantCoordinate) intent.getSerializableExtra("restaurantCoordinate");
         destinationData = (MenuData) intent.getSerializableExtra("data");
         placeTitle.setText(destinationData.getTitle());
         address.setText(destinationData.getAddress());
@@ -125,6 +125,7 @@ public class DetailsActivity extends AppCompatActivity implements OnMapReadyCall
                 + "&key=" + getResources().getString(R.string.google_places_API);
         Glide.with(this)
                 .load(backdropUrl)
+                .placeholder(R.drawable.restoplaceholder)
                 .listener(new RequestListener<String, GlideDrawable>() {
                     @Override
                     public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
@@ -164,7 +165,7 @@ public class DetailsActivity extends AppCompatActivity implements OnMapReadyCall
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("http://maps.google.com/maps?saddr=" + coordinate.getLatitude() + "," + coordinate.getLongitude()
+                        Uri.parse("http://maps.google.com/maps?saddr=" + restaurantCoordinate.getLatitude() + "," + restaurantCoordinate.getLongitude()
                                 + "&daddr=" + destinationData.getLatitude() + "," + destinationData.getLongitude()));
                 startActivity(intent);
             }
@@ -185,13 +186,14 @@ public class DetailsActivity extends AppCompatActivity implements OnMapReadyCall
     @Override
     public void onMapReady(final GoogleMap googleMap) {
         this.googleMap = googleMap;
-        final LatLng position = new LatLng(coordinate.getLatitude(), coordinate.getLongitude());
+        final LatLng position = new LatLng(restaurantCoordinate.getLatitude(), restaurantCoordinate.getLongitude());
         final LatLng destination = new LatLng(destinationData.getLatitude(), destinationData.getLongitude());
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 14.0f));
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             googleMap.setMyLocationEnabled(true);
         }
         googleMap.addMarker(new MarkerOptions().position(destination).title(destinationData.getTitle()));
+        googleMap.getUiSettings().setScrollGesturesEnabled(false);
         GoogleDirection.withServerKey(getResources().getString(R.string.google_places_API))
                 .from(position)
                 .to(destination)

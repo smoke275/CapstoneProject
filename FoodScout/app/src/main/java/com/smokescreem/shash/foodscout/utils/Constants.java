@@ -13,7 +13,7 @@ public class Constants extends Application {
     /**
      * Enter Google Places API key here:
      */
-    public static String PLACES_BASE_URL = "https://maps.googleapis.com/maps/api/place/";
-    public static String DEFAULT_RADIUS = "500";
-    public static String API_KEY = "<YOUR_KEY>";
+    public static final String PLACES_BASE_URL = "https://maps.googleapis.com/maps/api/place/";
+    public static final String DEFAULT_RADIUS = "500";
+    public static final String API_KEY = "YOUR KEY";
 }
