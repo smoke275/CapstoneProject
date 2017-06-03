@@ -60,10 +60,7 @@ dependencies {
     compile 'com.github.bloder:magic:1.1'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.akexorcist:googledirectionlibrary:1.0.4'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.google.android.gms:play-services-ads:9.4.0'
-    compile 'com.google.android.gms:play-services-auth:9.4.0'
-    compile 'com.google.android.gms:play-services-gcm:9.4.0'
     compile 'com.google.android.gms:play-services-maps:9.4.0'
     compile 'com.google.android.gms:play-services-location:9.4.0'
 }

@@ -1,13 +1,15 @@
-package com.smokescreem.shash.foodscout.ui;
+package com.smokescreem.shash.foodscout.widget;
 
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
 
 import com.smokescreem.shash.foodscout.R;
+import com.smokescreem.shash.foodscout.ui.DiaryDetailsActivity;
 
 /**
  * Created by Shash on 5/20/2017.
@@ -25,6 +27,8 @@ public class CreateDiaryMemory extends AppWidgetProvider {
         intent.putExtra("mode", 1);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
         views.setOnClickPendingIntent(R.id.widget_layout, pendingIntent);
+        views.setRemoteAdapter(R.id.diary_memory_list, new Intent(context, DiaryWidgetRemoteViewsService.class));
+        views.setEmptyView(R.id.diary_memory_list, R.id.widget_empty);
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }
@@ -34,6 +38,18 @@ public class CreateDiaryMemory extends AppWidgetProvider {
         // There may be multiple widgets active, so update all of them
         for (int appWidgetId : appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId);
+        }
+    }
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        super.onReceive(context, intent);
+        if (intent.getAction().equals(
+                AppWidgetManager.ACTION_APPWIDGET_UPDATE)) {
+            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+            int[] appWidgetIds = appWidgetManager.getAppWidgetIds(
+                    new ComponentName(context, getClass()));
+            appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.diary_memory_list);
         }
     }
 

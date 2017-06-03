@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:background="#fff"
+    android:paddingStart="@dimen/widget_layout_padding"
+    android:paddingEnd="@dimen/widget_layout_padding"
+    android:paddingLeft="@dimen/widget_layout_padding"
+    android:paddingRight="@dimen/widget_layout_padding">
+
+        <TextView
+            android:id="@+id/topic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/widget_text_padding"
+            android:paddingEnd="@dimen/widget_text_padding"
+            android:paddingLeft="@dimen/widget_text_padding"
+            android:paddingRight="@dimen/widget_text_padding"
+            tools:text="100%" />
+
+</LinearLayout>

@@ -45,7 +45,8 @@ public class MainActivity extends AppCompatActivity {
         CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         String name[] = restaurantCoordinate.getName().split(",");
         collapsingToolbarLayout.setTitle(name[0]);
-        subtitle.setText(name[1]);
+        if(name.length>1)
+            subtitle.setText(name[1]);
         String backdropUrl = Constants.photoBaseURL + "?maxwidth=" + Constants.imageResolution
                 + "&photoreference=" + restaurantCoordinate.getPhotoReference()
                 + "&key=" + getResources().getString(R.string.google_places_API);

@@ -2,8 +2,11 @@
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
     android:initialKeyguardLayout="@layout/create_memory"
     android:initialLayout="@layout/create_memory"
-    android:minHeight="40dp"
-    android:minWidth="40dp"
+    android:minHeight="@dimen/widget_default_height"
+    android:minResizeHeight="@dimen/widget_min_resize_height"
+    android:minResizeWidth="@dimen/widget_min_resize_width"
+    android:minWidth="@dimen/widget_default_width"
     android:previewImage="@drawable/example_appwidget_preview"
-    android:updatePeriodMillis="86400000"
-    android:widgetCategory="home_screen"></appwidget-provider>
+    android:resizeMode="horizontal|vertical"
+    android:updatePeriodMillis="10000"
+    android:widgetCategory="home_screen|keyguard"></appwidget-provider>

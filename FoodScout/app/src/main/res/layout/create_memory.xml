@@ -1,14 +1,42 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/widget_layout"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primary_dark"
+    android:orientation="vertical"
     android:padding="@dimen/widget_margin">
-
-    <ImageView
+    <FrameLayout
+        android:id="@+id/widget_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:contentDescription="@string/create_a_memory"
-        android:src="@drawable/ic_mode_edit_white_24dp" />
+        android:layout_height="@dimen/widget_bar_height"
+        android:background="@color/primary_dark"
+        android:padding="@dimen/widget_margin">
 
-</RelativeLayout>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/create_a_memory"
+            android:src="@drawable/ic_mode_edit_white_24dp" />
+
+    </FrameLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/text_white"
+        android:layout_weight="1">
+        <ListView
+            android:id="@+id/diary_memory_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@null"
+            android:dividerHeight="0dp"/>
+        <TextView
+            android:id="@+id/widget_empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:fontFamily="sans-serif-condensed"
+            android:textAppearance="?android:textAppearanceLarge"
+            android:text="@string/empty_forecast_list"/>
+    </FrameLayout>
+</LinearLayout>

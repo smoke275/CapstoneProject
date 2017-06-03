@@ -60,5 +60,6 @@
         android:layout_marginEnd="@dimen/fab_margin_horizontal"
         android:src="@android:drawable/ic_input_add"
         android:tint="@android:color/white"
+        android:contentDescription="@string/add_to_diary"
         app:pressedTranslationZ="@dimen/fab_press_translation_z" />
 </android.support.design.widget.CoordinatorLayout>

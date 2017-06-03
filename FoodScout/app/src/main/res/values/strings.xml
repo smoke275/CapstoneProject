@@ -34,4 +34,7 @@
     <!- -->
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
     <string name="share_with_friends">share with friends</string>
+    <string name="add_to_diary">Add to diary</string>
+    <string name="diary_read_edit">Read/Edit mode</string>
+    <string name="empty_forecast_list">No memories to display</string>
 </resources>
